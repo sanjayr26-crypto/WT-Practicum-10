@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Bridge - DOM Elements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+        }
+
+        /* Flexbox navigation bar (from Practicum 6) */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #1b263b;
+            padding: 15px 40px;
+            border-bottom: 2px solid #00b4d8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00b4d8;
+        }
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #e0e1dd;
+            font-size: 16px;
+        }
+        .nav-links li a:hover {
+            color: #90e0ef;
+        }
+
+        /* Section heading */
+        .dom-heading {
+            text-align: center;
+            margin-top: 100px;
+            color: #00b4d8;
+        }
+        .dom-heading p {
+            color: #e0e1dd;
+            font-size: 14px;
+        }
+
+        .dom-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 40px 60px;
+        }
+
+        /* Transaction simulator box */
+        .sim-box {
+            background-color: #1b263b;
+            border: 1px solid #00b4d8;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .sim-box h3 {
+            color: #00b4d8;
+            margin-top: 0;
+        }
+        .sim-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #00b4d8;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            box-sizing: border-box;
+        }
+        .sim-box button {
+            background-color: #00b4d8;
+            color: #0d1b2a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .sim-box button:hover {
+            background-color: #90e0ef;
+        }
+        #status-msg {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .status-success {
+            color: #00b4d8;
+        }
+        .status-error {
+            color: #ff6b6b;
+        }
+
+        /* Live balance ticker */
+        .balance-box {
+            background-color: #1b263b;
+            border: 1px solid #00b4d8;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .balance-box h3 {
+            margin-top: 0;
+            color: #00b4d8;
+        }
+        #balance-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #90e0ef;
+        }
+        .balance-box .btn-group {
+            margin-top: 15px;
+        }
+        .balance-box button {
+            background-color: #00b4d8;
+            color: #0d1b2a;
+            border: none;
+            padding: 8px 18px;
+            margin: 0 5px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .balance-box button:hover {
+            background-color: #90e0ef;
+        }
+
+        /* Transaction log list */
+        .log-box {
+            background-color: #1b263b;
+            border: 1px solid #00b4d8;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .log-box h3 {
+            margin-top: 0;
+            color: #00b4d8;
+        }
+        #tx-log {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #tx-log li {
+            padding: 8px 10px;
+            border-bottom: 1px solid #0d1b2a;
+            font-size: 14px;
+        }
+        #tx-log li:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 15px 20px;
+            }
+            .dom-container {
+                padding: 15px 20px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Block Bridge</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="https://aboutus.com">About Us</a></li>
+            <li><a href="https://ourwebsite.com">Our Website</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="dom-heading">
+        <h2>Transaction Simulator</h2>
+        <p>DOM elements selected and updated dynamically with JavaScript</p>
+    </div>
+
+    <div class="dom-container">
+
+        <div class="sim-box">
+            <h3>Send Transaction</h3>
+            <input type="text" id="recipient-input" placeholder="Recipient wallet address">
+            <input type="number" id="amount-input" placeholder="Amount (BBC)">
+            <button id="send-btn">Send</button>
+            <p id="status-msg"></p>
+        </div>
+
+        <div class="balance-box">
+            <h3>Wallet Balance</h3>
+            <div id="balance-value">500 BBC</div>
+            <div class="btn-group">
+                <button id="increase-btn">+ Add 50</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <div class="log-box">
+            <h3>Transaction Log</h3>
+            <ul id="tx-log">
+                <li>No transactions yet.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Selecting DOM elements
+        const recipientInput = document.getElementById('recipient-input');
+        const amountInput = document.getElementById('amount-input');
+        const sendBtn = document.getElementById('send-btn');
+        const statusMsg = document.getElementById('status-msg');
+        const balanceValue = document.getElementById('balance-value');
+        const increaseBtn = document.getElementById('increase-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const txLog = document.getElementById('tx-log');
+
+        let balance = 500;
+        let isFirstEntry = true;
+
+        // 2. Adding event listeners
+        sendBtn.addEventListener('click', function () {
+            const recipient = recipientInput.value.trim();
+            const amount = parseFloat(amountInput.value);
+
+            // 3. Manipulating DOM properties based on validation
+            if (recipient === '' || isNaN(amount) || amount <= 0) {
+                statusMsg.textContent = 'Please enter a valid recipient and amount.';
+                statusMsg.className = 'status-error';
+                return;
+            }
+
+            if (amount > balance) {
+                statusMsg.textContent = 'Insufficient balance for this transaction.';
+                statusMsg.className = 'status-error';
+                return;
+            }
+
+            balance -= amount;
+            balanceValue.textContent = balance + ' BBC';
+            statusMsg.textContent = 'Sent ' + amount + ' BBC to ' + recipient + ' successfully.';
+            statusMsg.className = 'status-success';
+
+            addLogEntry('Sent ' + amount + ' BBC to ' + recipient);
+
+            recipientInput.value = '';
+            amountInput.value = '';
+        });
+
+        increaseBtn.addEventListener('click', function () {
+            balance += 50;
+            balanceValue.textContent = balance + ' BBC';
+            addLogEntry('Received 50 BBC (test funds)');
+        });
+
+        resetBtn.addEventListener('click', function () {
+            balance = 500;
+            balanceValue.textContent = balance + ' BBC';
+            statusMsg.textContent = '';
+            txLog.innerHTML = '<li>No transactions yet.</li>';
+            isFirstEntry = true;
+        });
+
+        function addLogEntry(text) {
+            if (isFirstEntry) {
+                txLog.innerHTML = '';
+                isFirstEntry = false;
+            }
+            const entry = document.createElement('li');
+            entry.textContent = text;
+            txLog.prepend(entry);
+        }
+    </script>
+
+</body>
+</html>
